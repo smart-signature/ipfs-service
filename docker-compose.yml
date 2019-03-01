@@ -1,0 +1,26 @@
+version: "2"
+services:
+  ipfs:
+    restart: always
+    image: ipfs/go-ipfs
+    hostname: "{{.Service.Name}}-{{.Task.Slot}}"
+    volumes:
+      - ~/ipfs-data-volumes:/data/ipfs
+    networks:
+      overlay:
+        aliases:
+          - ipfs
+  app:
+        restart: always
+        build: .
+        hostname: "{{.Service.Name}}-{{.Task.Slot}}"
+        command: node app.js
+        ports:
+          - 3200:3000
+        networks:
+          overlay:
+networks:
+  overlay:
+
+
+
