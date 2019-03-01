@@ -11,4 +11,3 @@ COPY . /usr/src/app
 RUN cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
 
 EXPOSE 3000
-# CMD [ "npm", "start" ]
