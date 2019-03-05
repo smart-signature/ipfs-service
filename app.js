@@ -107,7 +107,44 @@ app.post('/submitmail', function (req, res) {
             }
         });
     });
+});
 
+
+
+app.get('/userinfo/:username', function (req, res) {
+
+    var username = req.params.username;
+
+    logger.debug("get userinfo", username);
+
+    if (!username) {
+        return res.json({ code: 404, msg: "user not found" });
+    }
+
+    var sql = `select * from userinfo where username ='${username}';`
+
+    pool.getConnection(function (err, connection) {
+
+        if (err) {
+            return res.json({ code: 500, msg: "submut mail fail, get db error" });
+        }
+
+        connection.query(sql, function (err, result) {
+            connection.release();
+
+            if (err) {
+                logger.error(err);
+
+                res.json({ code: 500, msg: "get userinfo fail" });
+            } else {
+                if (result && result.length > 0) {
+                    res.json({ code: 200, data: { username: result[0].username, mail: result[0].mail } });
+                } else {
+                    res.json({ code: 404, msg: "user not found" });
+                }
+            }
+        });
+    });
 });
 
 
