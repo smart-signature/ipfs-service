@@ -76,6 +76,41 @@ app.post('/addJSON', function (req, res) {
     });
 });
 
+var config = require("./config.js");
+var mysql = require('mysql');
+//创建mysql连接池
+var pool = mysql.createPool(config.mysql);
+
+// mysql数据库 相关
+app.post('/submitmail', function (req, res) {
+    var username = req.body.username;
+    var mail = req.body.mail;
+
+    logger.debug("submut mail", username, mail);
+
+    var sql = `INSERT INTO userinfo  VALUES (null,'${username}', '${mail}') ON DUPLICATE KEY UPDATE mail='${mail}';`
+
+    pool.getConnection(function (err, connection) {
+
+        if (err) {
+            return res.json({ code: 500, msg: "submut mail fail, get db error" });
+        }
+
+        connection.query(sql, function (err, result) {
+            connection.release();
+            if (err) {
+                logger.error(err);
+
+                res.json({ code: 500, msg: "submut mail fail" });
+            } else {
+                res.json({ code: 200 });
+            }
+        });
+    });
+
+});
+
+
 http.listen(port, function () {
     logger.info('listening on *:' + port);
 });
