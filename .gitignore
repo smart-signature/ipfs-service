@@ -8,3 +8,4 @@ test/unit/coverage
 test/e2e/reports
 release.sh
 config.js
+uploads/

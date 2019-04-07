@@ -4,6 +4,9 @@ services:
     restart: always
     image: ipfs/go-ipfs
     hostname: "{{.Service.Name}}-{{.Task.Slot}}"
+    ports:
+      - 8888:8080
+      - 5001:5001
     volumes:
       - ~/ipfs-data-volumes:/data/ipfs
     networks:
@@ -36,8 +39,8 @@ services:
     restart: always
     image: mysql:5.7.21
     hostname: "{{.Service.Name}}-{{.Task.Slot}}"
-    ports:
-      - 3306:3306
+    # ports:
+      # - 3306:3306
     networks:
       overlay:
         aliases:
