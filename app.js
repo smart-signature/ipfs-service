@@ -26,8 +26,8 @@ ipfs.setProvider({ host: 'ipfs', protocol: 'http' })
 var ipfsClient = require('ipfs-http-client')
 
 // connect to ipfs daemon API server
-// var fullipfs = ipfsClient('ipfs', '5001', { protocol: 'http' }) 
-var fullipfs = ipfsClient('localhost', '5001', { protocol: 'http' }) 
+var fullipfs = ipfsClient('ipfs', '5001', { protocol: 'http' }) 
+// var fullipfs = ipfsClient('localhost', '5001', { protocol: 'http' }) 
 
 
 // var storage = multer.diskStorage({
@@ -119,77 +119,77 @@ app.post('/upload', upload.single('avatar'), function (req, res, next) {
     })
 })
 
-var config = require("./config.js");
+// var config = require("./config.js");
 
-var mysql = require('mysql');
-//创建mysql连接池
-var pool = mysql.createPool(config.mysql);
+// var mysql = require('mysql');
+// //创建mysql连接池
+// var pool = mysql.createPool(config.mysql);
 
 // mysql数据库 相关
-app.post('/submitmail', function (req, res) {
-    var username = req.body.username;
-    var mail = req.body.mail;
+// app.post('/submitmail', function (req, res) {
+//     var username = req.body.username;
+//     var mail = req.body.mail;
 
-    logger.debug("submut mail", username, mail);
+//     logger.debug("submut mail", username, mail);
 
-    var sql = `INSERT INTO userinfo  VALUES (null,'${username}', '${mail}') ON DUPLICATE KEY UPDATE mail='${mail}';`
+//     var sql = `INSERT INTO userinfo  VALUES (null,'${username}', '${mail}') ON DUPLICATE KEY UPDATE mail='${mail}';`
 
-    pool.getConnection(function (err, connection) {
+//     pool.getConnection(function (err, connection) {
 
-        if (err) {
-            return res.json({ code: 500, msg: "submut mail fail, get db error" });
-        }
+//         if (err) {
+//             return res.json({ code: 500, msg: "submut mail fail, get db error" });
+//         }
 
-        connection.query(sql, function (err, result) {
-            connection.release();
-            if (err) {
-                logger.error(err);
+//         connection.query(sql, function (err, result) {
+//             connection.release();
+//             if (err) {
+//                 logger.error(err);
 
-                res.json({ code: 500, msg: "submut mail fail" });
-            } else {
-                res.json({ code: 200 });
-            }
-        });
-    });
-});
+//                 res.json({ code: 500, msg: "submut mail fail" });
+//             } else {
+//                 res.json({ code: 200 });
+//             }
+//         });
+//     });
+// });
 
 
 
-app.get('/userinfo/:username', function (req, res) {
+// app.get('/userinfo/:username', function (req, res) {
 
-    var username = req.params.username;
+//     var username = req.params.username;
 
-    logger.debug("get userinfo", username);
+//     logger.debug("get userinfo", username);
 
-    if (!username) {
-        return res.json({ code: 404, msg: "user not found" });
-    }
+//     if (!username) {
+//         return res.json({ code: 404, msg: "user not found" });
+//     }
 
-    var sql = `select * from userinfo where username ='${username}';`
+//     var sql = `select * from userinfo where username ='${username}';`
 
-    pool.getConnection(function (err, connection) {
+//     pool.getConnection(function (err, connection) {
 
-        if (err) {
-            return res.json({ code: 500, msg: "submut mail fail, get db error" });
-        }
+//         if (err) {
+//             return res.json({ code: 500, msg: "submut mail fail, get db error" });
+//         }
 
-        connection.query(sql, function (err, result) {
-            connection.release();
+//         connection.query(sql, function (err, result) {
+//             connection.release();
 
-            if (err) {
-                logger.error(err);
+//             if (err) {
+//                 logger.error(err);
 
-                res.json({ code: 500, msg: "get userinfo fail" });
-            } else {
-                if (result && result.length > 0) {
-                    res.json({ code: 200, data: { username: result[0].username, mail: result[0].mail } });
-                } else {
-                    res.json({ code: 404, msg: "user not found" });
-                }
-            }
-        });
-    });
-});
+//                 res.json({ code: 500, msg: "get userinfo fail" });
+//             } else {
+//                 if (result && result.length > 0) {
+//                     res.json({ code: 200, data: { username: result[0].username, mail: result[0].mail } });
+//                 } else {
+//                     res.json({ code: 404, msg: "user not found" });
+//                 }
+//             }
+//         });
+//     });
+// });
 
 
 http.listen(port, function () {

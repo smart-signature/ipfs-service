@@ -1,4 +1,4 @@
-FROM node:7.2.1
+FROM node:8.6.0
 RUN mkdir -p /usr/src/app
 HEALTHCHECK --interval=30s --timeout=3s --retries=3 CMD curl -fs http://localhost:3000/ || exit 1
 WORKDIR /usr/src/app
