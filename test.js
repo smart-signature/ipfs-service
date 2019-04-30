@@ -1,41 +1,41 @@
 var request = require("request");
 
-var host = "http://localhost:3200"
-// var host = "https://ipfs.libra.bet"
+// var host = "http://localhost:3200"
 // var host = "https://api.smartsignature.io/ipfs"
+var host = "https://apitest.smartsignature.io/ipfs"
 // var host = "https://api.smartsignature.io/"
 
-request({
-    uri: host + "/add",
-    rejectUnauthorized: false,
-    json: true,
-    headers: { "Accept": '*/*' },
-    dataType: 'json',
-    method: "POST",
-    form: {
-        data: "test ipfs service111212121",
-    }
-}, function (error, response, body) {
-    console.log(body)
-});
-
 // request({
-//     uri: host + "/ipfs/addJSON",
+//     uri: host + "/add",
 //     rejectUnauthorized: false,
 //     json: true,
 //     headers: { "Accept": '*/*' },
 //     dataType: 'json',
 //     method: "POST",
 //     form: {
-//         data: {
-//             btc: "to the moon1a",
-//             eth: "to the moon2b",
-//             eos: "to the moon3c",
-//         },
+//         data: "test ipfs service111212121",
 //     }
 // }, function (error, response, body) {
 //     console.log(body)
 // });
+
+request({
+    uri: host + "/addJSON",
+    rejectUnauthorized: false,
+    json: true,
+    headers: { "Accept": '*/*' },
+    dataType: 'json',
+    method: "POST",
+    form: {
+        data: {
+            btc: "to the moon1a",
+            eth: "to the moon2b",
+            eos: "to the moon3c",
+        },
+    }
+}, function (error, response, body) {
+    console.log(body)
+});
 
 // request({
 //     uri: host + "/cat/Qme91zBC7WGqbZfpWvRQBXvHgbnoo5wszqkkSdazxqVgCG",
