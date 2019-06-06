@@ -119,6 +119,13 @@ app.post('/upload', upload.single('avatar'), function (req, res, next) {
     })
 })
 
+app.post('/uploadUrl', function (req, res, next) {
+    fullipfs.addFromURL(req.body.url, (err, result) => {
+        if (err) { throw (err) }
+        res.json({ code: 200, hash: result[0].hash });
+    })
+})
+
 // var config = require("./config.js");
 
 // var mysql = require('mysql');
